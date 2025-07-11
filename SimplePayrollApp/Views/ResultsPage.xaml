@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:SimplePayrollApp.ViewModels"
+             x:Class="SimplePayrollApp.Views.ResultsPage"
+             Title="{Binding Title}"
+             BackgroundColor="#F8F9FA">
+
+    <Grid RowDefinitions="Auto,*,Auto">
+        <!-- Header -->
+        <Frame Grid.Row="0" Padding="20,25" BackgroundColor="#2E7D32" HasShadow="True">
+            <VerticalStackLayout Spacing="5">
+                <Label Text="{Binding PayrollData.EmployeeName}" 
+                       FontSize="24" 
+                       FontAttributes="Bold" 
+                       TextColor="White"
+                       HorizontalTextAlignment="Center" />
+
+                <Label Text="{Binding PayrollData.EmployeeID, StringFormat='ID: {0}'}" 
+                       FontSize="16" 
+                       TextColor="#E0E0E0"
+                       HorizontalTextAlignment="Center" />
+
+                <Label Text="{Binding FormattedPayPeriod}" 
+                       FontSize="14" 
+                       TextColor="#E0E0E0"
+                       HorizontalTextAlignment="Center"
+                       Margin="0,10,0,0" />
+            </VerticalStackLayout>
+        </Frame>
+
+        <!-- Scrollable Content -->
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="20" Spacing="20">
+                <!-- Summary Card -->
+                <Border x:Name="SummaryCard" StrokeShape="RoundRectangle 12" Stroke="#E0E0E0" StrokeThickness="1" BackgroundColor="White">
+                    <VerticalStackLayout Padding="20" Spacing="15">
+                        <Label Text="SALARY SUMMARY" FontSize="16" TextColor="#4CAF50" FontAttributes="Bold" HorizontalOptions="Center" />
+
+                        <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" RowSpacing="15">
+                            <Label Text="Basic Salary" Grid.Row="0" Grid.Column="0" TextColor="#212121" />
+                            <Label Text="{Binding FormattedBasicSalary}" Grid.Row="0" Grid.Column="1" TextColor="#212121" />
+
+                            <Label Text="Allowances" Grid.Row="1" Grid.Column="0" TextColor="#212121" />
+                            <Label Text="{Binding FormattedAllowances}" Grid.Row="1" Grid.Column="1" TextColor="#212121" />
+
+                            <Label Text="Bonus" Grid.Row="2" Grid.Column="0" TextColor="#212121" />
+                            <Label Text="{Binding FormattedBonus}" Grid.Row="2" Grid.Column="1" TextColor="#212121" />
+
+                            <Label Text="Overtime" Grid.Row="3" Grid.Column="0" TextColor="#212121" />
+                            <Label Text="{Binding FormattedOvertime}" Grid.Row="3" Grid.Column="1" TextColor="#212121" />
+
+                            <BoxView Grid.Row="4" Grid.ColumnSpan="2" HeightRequest="1" BackgroundColor="#E0E0E0" />
+
+                            <Label Text="Gross Salary" Grid.Row="5" Grid.Column="0" TextColor="#212121" FontAttributes="Bold" />
+                            <Label Text="{Binding FormattedGrossSalary}" Grid.Row="5" Grid.Column="1" FontAttributes="Bold" TextColor="#4CAF50" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Deductions Card -->
+                <Border x:Name="DeductionsCard" StrokeShape="RoundRectangle 12" Stroke="#E0E0E0" StrokeThickness="1" BackgroundColor="White">
+                    <VerticalStackLayout Padding="20" Spacing="15">
+                        <Label Text="DEDUCTIONS" FontSize="16" TextColor="#F44336" FontAttributes="Bold" HorizontalOptions="Center" />
+
+                        <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto" RowSpacing="15">
+                            <Label Text="SSF Contribution (5.5%)" Grid.Row="0" Grid.Column="0" TextColor="#212121" />
+                            <Label Text="{Binding FormattedSSF}" Grid.Row="0" Grid.Column="1" TextColor="#212121" />
+
+                            <Label Text="PAYE Tax" Grid.Row="1" Grid.Column="0" TextColor="#212121" />
+                            <Label Text="{Binding FormattedPAYE}" Grid.Row="1" Grid.Column="1" TextColor="#212121" />
+
+                            <BoxView Grid.Row="2" Grid.ColumnSpan="2" HeightRequest="1" BackgroundColor="#E0E0E0" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Net Salary Card -->
+                <Border x:Name="NetSalaryCard" StrokeShape="RoundRectangle 12" Stroke="#4CAF50" StrokeThickness="2" BackgroundColor="White">
+                    <Grid Padding="20" ColumnDefinitions="*,Auto">
+                        <Label Text="NET SALARY" Grid.Column="0" FontSize="18" TextColor="#212121" FontAttributes="Bold" VerticalOptions="Center" />
+                        <Label Text="{Binding FormattedNetSalary}" Grid.Column="1" FontSize="22" TextColor="#4CAF50" FontAttributes="Bold" VerticalOptions="Center" />
+                    </Grid>
+                </Border>
+
+                <!-- Additional Information Card -->
+                <Border x:Name="InfoCard" StrokeShape="RoundRectangle 12" Stroke="#E0E0E0" StrokeThickness="1" BackgroundColor="White">
+                    <VerticalStackLayout Padding="20" Spacing="10">
+                        <Label Text="ADDITIONAL INFORMATION" FontSize="14" TextColor="#2196F3" FontAttributes="Bold" HorizontalOptions="Center" />
+
+                        <Label Text="This payroll calculation is based on the current tax regulations. The SSF contribution is calculated at 5.5% of the basic salary. PAYE tax is calculated according to the applicable tax brackets." 
+                               TextColor="#757575" 
+                               FontSize="13"
+                               LineBreakMode="WordWrap" />
+                    </VerticalStackLayout>
+                </Border>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Footer with Share Options -->
+        <Grid Grid.Row="2" ColumnDefinitions="*,*,*" BackgroundColor="White" Padding="10" ColumnSpacing="10">
+            <Button Grid.Column="0" 
+                    Text="PDF" 
+                    Command="{Binding ExportPdfCommand}"
+                    BackgroundColor="#F44336"
+                    TextColor="White"
+                    CornerRadius="8" />
+
+            <Button Grid.Column="1" 
+                    Text="Email" 
+                    Command="{Binding SendEmailCommand}"
+                    BackgroundColor="#2196F3"
+                    TextColor="White"
+                    CornerRadius="8" />
+
+            <Button Grid.Column="2" 
+                    Text="Share" 
+                    Command="{Binding ShareCommand}"
+                    BackgroundColor="#4CAF50"
+                    TextColor="White"
+                    CornerRadius="8" />
+        </Grid>
+
+        <!-- Loading Indicator -->
+        <ActivityIndicator Grid.RowSpan="3"
+                           HorizontalOptions="Center" 
+                           VerticalOptions="Center"
+                           IsRunning="{Binding IsBusy}"
+                           IsVisible="{Binding IsBusy}"
+                           Color="White"
+                           BackgroundColor="#80000000"
+                           HeightRequest="50"
+                           WidthRequest="50" />
+    </Grid>
+</ContentPage>

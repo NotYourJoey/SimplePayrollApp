@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:SimplePayrollApp.ViewModels"
+             x:Class="SimplePayrollApp.Views.MainPage"
+             BackgroundColor="#F5F5F5"
+             Title="{Binding Title}">
+
+    <ContentPage.Resources>
+        <Style x:Key="EntryStyle" TargetType="Entry">
+            <Setter Property="Margin" Value="10,5" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="TextColor" Value="#212121" />
+            <Setter Property="PlaceholderColor" Value="#9E9E9E" />
+        </Style>
+
+        <Style x:Key="CardTitleStyle" TargetType="Label">
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="TextColor" Value="#212121" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Margin" Value="5,0,0,0" />
+        </Style>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Margin="20" Spacing="15">
+            <!-- Title -->
+            <Label Text="Payroll Calculator" 
+                   FontSize="24" 
+                   FontAttributes="Bold" 
+                   TextColor="#4CAF50" 
+                   HorizontalOptions="Center"
+                   Margin="0,10,0,20" />
+
+            <!-- Employee Details Section -->
+            <Border x:Name="EmployeeSection" 
+                   StrokeShape="RoundRectangle 12" 
+                   Stroke="#E0E0E0" 
+                   StrokeThickness="1" 
+                   BackgroundColor="White" 
+                   Margin="0,10,0,5">
+                <VerticalStackLayout Padding="15">
+                    <Label Text="EMPLOYEE DETAILS" FontSize="14" TextColor="#4CAF50" FontAttributes="Bold" />
+
+                    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" Margin="0,10,0,0">
+                        <VerticalStackLayout Grid.Column="0" Grid.Row="0">
+                            <Label Text="Employee Name" Style="{StaticResource CardTitleStyle}" />
+                            <Entry x:Name="entryName" Placeholder="Enter name" 
+                                   Style="{StaticResource EntryStyle}" 
+                                   Keyboard="Text"
+                                   Text="{Binding EmployeeName}" />
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Grid.Column="1" Grid.Row="0">
+                            <Label Text="Employee ID" Style="{StaticResource CardTitleStyle}" />
+                            <Entry x:Name="entryID" Placeholder="Enter ID" 
+                                   Style="{StaticResource EntryStyle}" 
+                                   Keyboard="Text"
+                                   Text="{Binding EmployeeID}" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Compensation Section -->
+            <Border x:Name="CompensationSection" 
+                   StrokeShape="RoundRectangle 12" 
+                   Stroke="#E0E0E0" 
+                   StrokeThickness="1" 
+                   BackgroundColor="White">
+                <VerticalStackLayout Padding="15">
+                    <Label Text="COMPENSATION" FontSize="14" TextColor="#4CAF50" FontAttributes="Bold" />
+
+                    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" Margin="0,10,0,0">
+                        <VerticalStackLayout Grid.Column="0" Grid.Row="0">
+                            <Label Text="Basic Salary" Style="{StaticResource CardTitleStyle}" />
+                            <Entry x:Name="entryBasicSalary" Placeholder="0.00" 
+                                   Style="{StaticResource EntryStyle}" 
+                                   Keyboard="Numeric"
+                                   Text="{Binding BasicSalary}" />
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Grid.Column="1" Grid.Row="0">
+                            <Label Text="Allowances" Style="{StaticResource CardTitleStyle}" />
+                            <Entry x:Name="entryAllowances" Placeholder="0.00" 
+                                   Style="{StaticResource EntryStyle}" 
+                                   Keyboard="Numeric"
+                                   Text="{Binding Allowances}" />
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Grid.Column="0" Grid.Row="1">
+                            <Label Text="Bonus" Style="{StaticResource CardTitleStyle}" />
+                            <Entry x:Name="entryBonus" Placeholder="0.00" 
+                                   Style="{StaticResource EntryStyle}" 
+                                   Keyboard="Numeric"
+                                   Text="{Binding Bonus}" />
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Grid.Column="1" Grid.Row="1">
+                            <Label Text="Overtime" Style="{StaticResource CardTitleStyle}" />
+                            <Entry x:Name="entryOvertime" Placeholder="0.00" 
+                                   Style="{StaticResource EntryStyle}" 
+                                   Keyboard="Numeric"
+                                   Text="{Binding Overtime}" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Action Buttons -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="15" Margin="0,10">
+                <Button Text="CLEAR" 
+                        Command="{Binding ClearCommand}"
+                        BackgroundColor="#757575" 
+                        TextColor="White" 
+                        CornerRadius="25" 
+                        HeightRequest="50" 
+                        FontAttributes="Bold"
+                        Grid.Column="0" />
+
+                <Button Text="CALCULATE" 
+                        Command="{Binding CalculateCommand}"
+                        BackgroundColor="#4CAF50" 
+                        TextColor="White" 
+                        CornerRadius="25" 
+                        HeightRequest="50" 
+                        FontAttributes="Bold"
+                        Grid.Column="1"
+                        IsEnabled="{Binding IsNotBusy}" />
+            </Grid>
+
+            <!-- Loading Indicator -->
+            <ActivityIndicator IsRunning="{Binding IsBusy}" 
+                               IsVisible="{Binding IsBusy}"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               Color="#4CAF50"
+                               HeightRequest="50"
+                               WidthRequest="50" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
